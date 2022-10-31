@@ -1,0 +1,62 @@
+:root{
+    --type-color: #74cb48;
+    font-family: 'Montserrat', sans-serif;
+}
+* {
+    box-sizing:border-box
+}
+body, html {
+    margin: 0px;
+    padding: 0px;
+}
+ 
+.text-white {
+    color: white;
+}
+.border {
+    border: 1px solid red;
+}
+.flex {
+    display: flex;
+}
+.flex-row {
+    flex-direction: row;
+}
+.flex-column {
+    flex-direction: column;
+}
+.flex-gap-2 {
+    gap: 2rem;
+}
+.card {
+    height: 100vh;
+    background-color: var(--type-color);
+}
+.justify-content-between {
+    justify-content: space-between;
+}
+.justify-content-evenly {
+    justify-content: space-evenly;
+}
+.justify-content-center {
+    justify-content: center;
+}
+.align-items-center {
+    align-items: center;
+}
+.w-full {
+    width: 100%;
+}
+.capitalize{
+    text-transform: capitalize;
+}
+.h-full {
+    height: 100%;
+}
+.font-bold {
+    font-weight: bold;
+}
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
