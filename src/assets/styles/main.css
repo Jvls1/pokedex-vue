@@ -50,6 +50,12 @@ body, html {
 .capitalize{
     text-transform: capitalize;
 }
+.capitalize-first {
+    text-transform: lowercase;
+}
+.capitalize-first::first-letter {
+    text-transform: capitalize;
+}
 .h-full {
     height: 100%;
 }

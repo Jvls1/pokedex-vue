@@ -20,8 +20,8 @@
           <div class="h-full flex flex-column justify-content-between">
               <div class="flex flex-row border w-full justify-content-center" style="padding-top: 60px;">
                   <ul class="flex flex-row flex-gap-2">
-                      <li v-for="type in pokemon.types" :key="type">
-                          <h3 class="type-tag capitalize">
+                      <li v-for="type in pokemon.types" :key="type.color">
+                          <h3 class="type-tag">
                               {{type.type.name}}
                           </h3>
                       </li>
@@ -29,7 +29,7 @@
               </div>
               <div class="flex flex-column border align-items-center w-full justify-content-evenly">
                   <div class="flex">
-                      <h3 class="text-by-type">About</h3>
+                      <h3 class="text-by-type capitalize">About</h3>
                   </div>
                   <div class="flex flex-row justify-content-evenly w-full">
                       <div class="flex flex-column align-items-center">
@@ -41,7 +41,7 @@
                           <p>Height</p>
                       </div>
                       <div class="flex flex-column align-items-center">
-                          <div>
+                          <div class="flex flex-column ">
                               <li v-for="ability in pokemon.abilities" :key="ability">
                                   <p class="capitalize">
                                       {{ability.ability.name}}
@@ -52,12 +52,14 @@
                       </div>
                   </div>
               </div>
-              <div style="margin: 2rem;" class="border">
-                  <p class="capitalize">{{description}}</p>
+              <div class="border">
+                  <p class="capitalize-first">
+                    {{description}}
+                  </p>
               </div>
               <div class="border card-stats flex flex-column align-items-center">
                   <div class="border">
-                      <h3 class="text-by-type">Base Stats</h3>
+                      <h3 class="text-by-type capitalize">Base Stats</h3>
                   </div>
                   <div class="border flex flex-column align-items-center w-full" v-for="stat in pokemon.stats" :key="stat">
                       <div class="flex flex-row flex-gap-2 justify-content-between w-full">
@@ -84,12 +86,35 @@ export default {
       return {
         pokemon: {},
         linkImage: '',
-        description: ''
+        description: '',
+        type: [],
+        typeColor: [{
+          color: '',
+          css: ''
+        }],
+        normal: '#AAA67F',
+        fighting: '#C12239',
+        flying: '#A891EC',
+        poison: '#A43E9E',
+        ground: '#DEC16B',
+        rock: '#B69E31',
+        bug: '#A7B723',
+        ghost: '#70559B',
+        steel: '#B7B9D0',
+        fire: '#F57D31',
+        water: '#6493EB',
+        grass: '#74CB48',
+        electric: '#F9CF30',
+        psychic: '#FB5584',
+        ice: '#9AD6DF',
+        dragon: '#7037FF',
+        dark: '#75574C',
+        fairy: '#E69EAC'
       }
     },
     methods: {
       getPokemon() {
-        fetch('https://pokeapi.co/api/v2/pokemon/bulbasaur', {
+        fetch('https://pokeapi.co/api/v2/pokemon/charmander', {
           method: 'GET'
         }).then(res => {
           res.json().then(data => ({
@@ -98,20 +123,28 @@ export default {
           })).then(res => {
             console.log(res.data);
             this.pokemon = res.data;
+            this.types = res.data.types;
+
+            for (let index = 0; index < this.types; index++) {
+              let type = this.types[index].toLowerCase;
+              this.typeColor.color = type;
+              
+              this.typeColor.push(this.typeColor);
+              console.log(this.typeColor);
+            }
             this.linkImage = res.data.sprites.front_default;
           })
         })
         
-        fetch('https://pokeapi.co/api/v2/pokemon-species/bulbasaur',{
+        fetch('https://pokeapi.co/api/v2/pokemon-species/charmander',{
           method:'GET'
         }).then(res => {
           res.json().then(data => ({
             data: data,
             status: res.status
           })).then(res => {
-            console.log(res.data);
-            this.description = res.data.flavor_text_entries[0].flavor_text
-            console.log(this.description);
+            this.description = res.data.flavor_text_entries[0].flavor_text;
+            this.description = this.description.replace(/[\n\f]/g,' ').toLowerCase();
           })
         })
         
@@ -119,9 +152,20 @@ export default {
       
     },
     computed: {
-      pokemonImg() {
+      dynamicColor(type) {
         return {
-          'background-image': 'url('+this.linkImage+')'
+          if () {
+            if(type === 'normal') {
+              this.typeColor.css = this.normal;
+            } else if(type === 'fighting') {
+              this.typeColor.css = this.fighting;
+            } else if(type === 'grass') {
+              this.typeColor.css = this.grass;
+            } else if(type === 'fire') {
+              this.fire;
+            }
+            return this.typeColor.css;
+          }
         }
       }
     },
@@ -181,7 +225,7 @@ export default {
   .type-tag {
     background-color: var(--type-color);
     color: white;
-    border-radius: 2rem;
+    border-radius: 1.5rem;
     padding: 0.5rem;
   }
 </style>
