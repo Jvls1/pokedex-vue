@@ -30,7 +30,6 @@ body, html {
 }
 .card {
     height: 100vh;
-    background-color: var(--type-color);
 }
 .justify-content-between {
     justify-content: space-between;

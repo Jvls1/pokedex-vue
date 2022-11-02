@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card type-color">
         <div>
             <nav class="flex flex-row justify-content-between nav-card">
                 <div class="flex flex-row flex-gap-2 align-items-center">
@@ -21,7 +21,7 @@
               <div class="flex flex-row border w-full justify-content-center" style="padding-top: 60px;">
                   <ul class="flex flex-row flex-gap-2">
                       <li v-for="type in pokemon.types" :key="type.color">
-                          <h3 class="type-tag">
+                          <h3 class="type-tag capitalize" :style="getCssColor(type.type.name)">
                               {{type.type.name}}
                           </h3>
                       </li>
@@ -29,7 +29,7 @@
               </div>
               <div class="flex flex-column border align-items-center w-full justify-content-evenly">
                   <div class="flex">
-                      <h3 class="text-by-type capitalize">About</h3>
+                      <h3 class="text-by-type capitalize font-bold type-color-text">About</h3>
                   </div>
                   <div class="flex flex-row justify-content-evenly w-full">
                       <div class="flex flex-column align-items-center">
@@ -59,7 +59,7 @@
               </div>
               <div class="border card-stats flex flex-column align-items-center">
                   <div class="border">
-                      <h3 class="text-by-type capitalize">Base Stats</h3>
+                      <h3 class="text-by-type capitalize font-bold type-color-text">Base Stats</h3>
                   </div>
                   <div class="border flex flex-column align-items-center w-full" v-for="stat in pokemon.stats" :key="stat">
                       <div class="flex flex-row flex-gap-2 justify-content-between w-full">
@@ -87,7 +87,7 @@ export default {
         pokemon: {},
         linkImage: '',
         description: '',
-        type: [],
+        type: '',
         typeColor: [{
           color: '',
           css: ''
@@ -109,34 +109,29 @@ export default {
         ice: '#9AD6DF',
         dragon: '#7037FF',
         dark: '#75574C',
-        fairy: '#E69EAC'
+        fairy: '#E69EAC',
+        typeColorCss: ''
       }
     },
     methods: {
       getPokemon() {
-        fetch('https://pokeapi.co/api/v2/pokemon/charmander', {
+        fetch('https://pokeapi.co/api/v2/pokemon/bulbasaur', {
           method: 'GET'
         }).then(res => {
           res.json().then(data => ({
             data: data,
             status: res.status
           })).then(res => {
-            console.log(res.data);
             this.pokemon = res.data;
-            this.types = res.data.types;
+            this.type = res.data.types[0].type.name;
+            console.log(res.data);
+            this.typeColorCss = this.getRgbColor(this.type);
 
-            for (let index = 0; index < this.types; index++) {
-              let type = this.types[index].toLowerCase;
-              this.typeColor.color = type;
-              
-              this.typeColor.push(this.typeColor);
-              console.log(this.typeColor);
-            }
             this.linkImage = res.data.sprites.front_default;
           })
         })
         
-        fetch('https://pokeapi.co/api/v2/pokemon-species/charmander',{
+        fetch('https://pokeapi.co/api/v2/pokemon-species/bulbasaur',{
           method:'GET'
         }).then(res => {
           res.json().then(data => ({
@@ -148,25 +143,49 @@ export default {
           })
         })
         
-      }
-      
-    },
-    computed: {
-      dynamicColor(type) {
-        return {
-          if () {
-            if(type === 'normal') {
-              this.typeColor.css = this.normal;
-            } else if(type === 'fighting') {
-              this.typeColor.css = this.fighting;
-            } else if(type === 'grass') {
-              this.typeColor.css = this.grass;
-            } else if(type === 'fire') {
-              this.fire;
-            }
-            return this.typeColor.css;
-          }
+      },
+      getRgbColor(type) {
+        if(type === 'normal') {
+          return this.normal;
+        } else if(type === 'fighting') {
+          return this.fighting;
+        } else if(type === 'flying') {
+          return this.flying;
+        } else if(type === 'poison') {
+          return this.poison;
+        } else if(type === 'ground') {
+          return this.ground;
+        } else if(type === 'rock') {
+          return this.rock;
+        } else if(type === 'bug') {
+          return this.bug;
+        } else if(type === 'ghost') {
+          return this.ghost;
+        } else if(type === 'steel') {
+          return this.steel;
+        } else if(type === 'fire') {
+          return this.fire;
+        } else if(type === 'water') {
+          return this.water;
+        } else if(type === 'grass') {
+          return this.grass;
+        } else if(type === 'electric') {
+          return this.electric;
+        } else if(type === 'psychic') {
+          return this.psychic;
+        } else if(type === 'ice') {
+          return this.ice;
+        } else if(type === 'dragon') {
+          return this.dragon;
+        } else if(type === 'dark') {
+          return this.dark;
+        } else if(type === 'fairy') {
+          return this.fairy;
         }
+      },
+      getCssColor(type) {
+        let rgbColor = this.getRgbColor(type);
+        return `background-color: ${rgbColor}`;
       }
     },
     beforeMount() {
@@ -181,17 +200,17 @@ export default {
     background-color: #ddd;
   }
   .stats-bar {
-    color: var(--type-color);
+    color: v-bind('typeColorCss');
     text-align: right;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
   .stats-test {
     width: 10%;
-    background-color: var(--type-color);
+    background-color:v-bind('typeColorCss');
   }
   .text-by-type {
-    color: var(--type-color);
+    color: v-bind('typeColorCss');
   }
   .nav-card {
     padding: 0.5rem;
@@ -227,5 +246,11 @@ export default {
     color: white;
     border-radius: 1.5rem;
     padding: 0.5rem;
+  }
+  .type-color {
+    background-color: v-bind('typeColorCss');
+  }
+  .type-color-text {
+    color: v-bind('typeColorCss');
   }
 </style>
