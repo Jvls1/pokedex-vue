@@ -63,13 +63,13 @@
                   </div>
                   <div class="border flex flex-column align-items-center w-full" v-for="stat in pokemon.stats" :key="stat">
                       <div class="flex flex-row flex-gap-2 justify-content-between w-full">
-                          <div class="flex flex-row flex-gap-2">
+                          <div class="flex flex-row flex-gap-2 justify-content-between">
                             <p class="capitalize">{{stat.stat.name}}</p>
                             <p>{{stat.base_stat}}</p>
                           </div>
                           <div class="w-full">
-                            <div class="container-stats">
-                              <div class="stats-bar stats-test"></div>
+                            <div class="container-stats" >
+                              <div class="stats-bar stats-bar-size" :style="getBaseStatsNumber(stat.stat.name)"></div>
                             </div>
                           </div>
                       </div>
@@ -85,6 +85,15 @@ export default {
     data() {
       return {
         pokemon: {},
+        baseStats: {
+          hp: 'HP',
+          attack: 'ATK',
+          defense: 'DEF',
+          sAttack: 'SATK',
+          sDefense: 'SDEF',
+          speed: 'SPD'
+        },
+        baseStatsNumber: 0,
         linkImage: '',
         description: '',
         type: '',
@@ -126,11 +135,9 @@ export default {
             this.type = res.data.types[0].type.name;
             console.log(res.data);
             this.typeColorCss = this.getRgbColor(this.type);
-
             this.linkImage = res.data.sprites.front_default;
           })
         })
-        
         fetch('https://pokeapi.co/api/v2/pokemon-species/bulbasaur',{
           method:'GET'
         }).then(res => {
@@ -186,6 +193,17 @@ export default {
       getCssColor(type) {
         let rgbColor = this.getRgbColor(type);
         return `background-color: ${rgbColor}`;
+      },
+      getBaseStatsNumber(statsName) {
+        for (let i = 0; i < this.pokemon.stats.length; i++) {
+          const element = this.pokemon.stats[i];
+          
+          if(statsName === element.stat.name) {
+            let x = element.base_stat * 100 / 255;
+            return `width: ${x}%`;
+          }
+        }
+        
       }
     },
     beforeMount() {
@@ -205,8 +223,8 @@ export default {
     padding-top: 5px;
     padding-bottom: 5px;
   }
-  .stats-test {
-    width: 10%;
+  .stats-bar-size {
+    width: v-bind('baseStatsNumber');
     background-color:v-bind('typeColorCss');
   }
   .text-by-type {
