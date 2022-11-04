@@ -13,7 +13,7 @@
         </div>
         <div class="flex flex-row justify-content-center">
             <div class="container-img">
-              <img :src="linkImage"/>
+              <img :src="linkImage" style="width:100%; height:100%; object-fit:contain;"/>
             </div>
         </div>
         <div class="info-card border" style="margin-top: -60px ;">
@@ -64,14 +64,14 @@
                   <div class="border flex flex-column align-items-center w-full" v-for="stat in pokemon.stats" :key="stat">
                       <div class="flex flex-row flex-gap-2 justify-content-between w-full">
                           <div class="flex flex-row flex-gap-2 justify-content-between">
-                            <p class="capitalize">{{stat.stat.name}}</p>
+                            <p class="capitalize font-bold type-color-text">{{getBaseStatsNameFormat(stat.stat.name)}}</p>
                             <p>{{stat.base_stat}}</p>
                           </div>
-                          <div class="w-full">
+                          <div class="w-full" style="padding: 0.5em;">
                             <div class="container-stats" >
                               <div class="stats-bar stats-bar-size" :style="getBaseStatsNumber(stat.stat.name)"></div>
                             </div>
-                          </div>
+                          </div> 
                       </div>
                   </div>
               </div>
@@ -89,8 +89,8 @@ export default {
           hp: 'HP',
           attack: 'ATK',
           defense: 'DEF',
-          sAttack: 'SATK',
-          sDefense: 'SDEF',
+          'special-attack': 'SATK',
+          'special-defense': 'SDEF',
           speed: 'SPD'
         },
         baseStatsNumber: 0,
@@ -101,24 +101,26 @@ export default {
           color: '',
           css: ''
         }],
-        normal: '#AAA67F',
-        fighting: '#C12239',
-        flying: '#A891EC',
-        poison: '#A43E9E',
-        ground: '#DEC16B',
-        rock: '#B69E31',
-        bug: '#A7B723',
-        ghost: '#70559B',
-        steel: '#B7B9D0',
-        fire: '#F57D31',
-        water: '#6493EB',
-        grass: '#74CB48',
-        electric: '#F9CF30',
-        psychic: '#FB5584',
-        ice: '#9AD6DF',
-        dragon: '#7037FF',
-        dark: '#75574C',
-        fairy: '#E69EAC',
+        typeColors: {
+          normal: '#AAA67F',
+          fighting: '#C12239',
+          flying: '#A891EC',
+          poison: '#A43E9E',
+          ground: '#DEC16B',
+          rock: '#B69E31',
+          bug: '#A7B723',
+          ghost: '#70559B',
+          steel: '#B7B9D0',
+          fire: '#F57D31',
+          water: '#6493EB',
+          grass: '#74CB48',
+          electric: '#F9CF30',
+          psychic: '#FB5584',
+          ice: '#9AD6DF',
+          dragon: '#7037FF',
+          dark: '#75574C',
+          fairy: '#E69EAC',
+        },
         typeColorCss: ''
       }
     },
@@ -135,7 +137,7 @@ export default {
             this.type = res.data.types[0].type.name;
             console.log(res.data);
             this.typeColorCss = this.getRgbColor(this.type);
-            this.linkImage = res.data.sprites.front_default;
+            this.linkImage = res.data.sprites.other["official-artwork"].front_default;
           })
         })
         fetch('https://pokeapi.co/api/v2/pokemon-species/bulbasaur',{
@@ -152,43 +154,7 @@ export default {
         
       },
       getRgbColor(type) {
-        if(type === 'normal') {
-          return this.normal;
-        } else if(type === 'fighting') {
-          return this.fighting;
-        } else if(type === 'flying') {
-          return this.flying;
-        } else if(type === 'poison') {
-          return this.poison;
-        } else if(type === 'ground') {
-          return this.ground;
-        } else if(type === 'rock') {
-          return this.rock;
-        } else if(type === 'bug') {
-          return this.bug;
-        } else if(type === 'ghost') {
-          return this.ghost;
-        } else if(type === 'steel') {
-          return this.steel;
-        } else if(type === 'fire') {
-          return this.fire;
-        } else if(type === 'water') {
-          return this.water;
-        } else if(type === 'grass') {
-          return this.grass;
-        } else if(type === 'electric') {
-          return this.electric;
-        } else if(type === 'psychic') {
-          return this.psychic;
-        } else if(type === 'ice') {
-          return this.ice;
-        } else if(type === 'dragon') {
-          return this.dragon;
-        } else if(type === 'dark') {
-          return this.dark;
-        } else if(type === 'fairy') {
-          return this.fairy;
-        }
+        return this.typeColors[type];
       },
       getCssColor(type) {
         let rgbColor = this.getRgbColor(type);
@@ -197,13 +163,14 @@ export default {
       getBaseStatsNumber(statsName) {
         for (let i = 0; i < this.pokemon.stats.length; i++) {
           const element = this.pokemon.stats[i];
-          
           if(statsName === element.stat.name) {
             let x = element.base_stat * 100 / 255;
             return `width: ${x}%`;
           }
         }
-        
+      },
+      getBaseStatsNameFormat(statsName) {
+        return this.baseStats[statsName];
       }
     },
     beforeMount() {
@@ -254,7 +221,7 @@ export default {
     background-color: white;
     margin: 0.5rem;
     border-radius: 10px;
-    height: 80vh;
+    height: 70vh;
   }
   .card-stats{
     width: 100%;
