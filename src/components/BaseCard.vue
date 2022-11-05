@@ -62,12 +62,12 @@
                       <h3 class="text-by-type capitalize font-bold type-color-text">Base Stats</h3>
                   </div>
                   <div class="border flex flex-column align-items-center w-full" v-for="stat in pokemon.stats" :key="stat">
-                      <div class="flex flex-row flex-gap-2 justify-content-between w-full">
-                          <div class="flex flex-row flex-gap-2 justify-content-between">
+                      <div class="flex flex-row flex-gap-2 w-full">
+                          <div class="flex flex-row col-2 flex-gap-1 justify-content-between align-items-center">
                             <p class="capitalize font-bold type-color-text">{{getBaseStatsNameFormat(stat.stat.name)}}</p>
                             <p>{{stat.base_stat}}</p>
                           </div>
-                          <div class="w-full" style="padding: 0.5em;">
+                          <div class="flex w-full" style="padding: 0.5em;">
                             <div class="container-stats" >
                               <div class="stats-bar stats-bar-size" :style="getBaseStatsNumber(stat.stat.name)"></div>
                             </div>
@@ -126,7 +126,7 @@ export default {
     },
     methods: {
       getPokemon() {
-        fetch('https://pokeapi.co/api/v2/pokemon/bulbasaur', {
+        fetch('https://pokeapi.co/api/v2/pokemon/charizard', {
           method: 'GET'
         }).then(res => {
           res.json().then(data => ({
@@ -140,18 +140,22 @@ export default {
             this.linkImage = res.data.sprites.other["official-artwork"].front_default;
           })
         })
-        fetch('https://pokeapi.co/api/v2/pokemon-species/bulbasaur',{
+        fetch('https://pokeapi.co/api/v2/pokemon-species/charizard',{
           method:'GET'
         }).then(res => {
           res.json().then(data => ({
             data: data,
             status: res.status
           })).then(res => {
-            this.description = res.data.flavor_text_entries[0].flavor_text;
+            for (let i = 0; i < res.data.flavor_text_entries.length; i++) {
+              this.description = res.data.flavor_text_entries[0].flavor_text;
+              if(res.data.flavor_text_entries[i].language.name === 'en') {
+                 this.description = res.data.flavor_text_entries[i].flavor_text;
+              }
+            }
             this.description = this.description.replace(/[\n\f]/g,' ').toLowerCase();
           })
         })
-        
       },
       getRgbColor(type) {
         return this.typeColors[type];
@@ -161,6 +165,7 @@ export default {
         return `background-color: ${rgbColor}`;
       },
       getBaseStatsNumber(statsName) {
+        // console.log(this.pokemon.stats[statsName]);
         for (let i = 0; i < this.pokemon.stats.length; i++) {
           const element = this.pokemon.stats[i];
           if(statsName === element.stat.name) {
