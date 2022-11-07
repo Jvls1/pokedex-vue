@@ -57,23 +57,11 @@
                     {{description}}
                   </p>
               </div>
-              <div class="border card-stats flex flex-column align-items-center">
-                  <div class="border">
-                      <h3 class="text-by-type capitalize font-bold type-color-text">Base Stats</h3>
-                  </div>
-                  <div class="border flex flex-column align-items-center w-full" v-for="stat in pokemon.stats" :key="stat">
-                      <div class="flex flex-row flex-gap-2 w-full">
-                          <div class="flex flex-row col-2 flex-gap-1 justify-content-between align-items-center">
-                            <p class="capitalize font-bold type-color-text">{{getBaseStatsNameFormat(stat.stat.name)}}</p>
-                            <p>{{stat.base_stat}}</p>
-                          </div>
-                          <div class="flex w-full" style="padding: 0.5em;">
-                            <div class="container-stats" >
-                              <div class="stats-bar stats-bar-size" :style="getBaseStatsNumber(stat.stat.name)"></div>
-                            </div>
-                          </div> 
-                      </div>
-                  </div>
+              <div class="border">
+                <h3 class="text-by-type capitalize font-bold type-color-text">Base Stats</h3>
+              </div>
+              <div class="border card-stats flex flex-column align-items-center" v-for="stat in pokemon.stats" :key="stat">
+                  <base-stats :baseStatsName="stat.stat.name" :baseStatsNumber="stat.base_stat"></base-stats>
               </div>
           </div>
         </div>
@@ -81,19 +69,12 @@
 </template>
 
 <script>
+import BaseStats from './SinglePokemon/BaseStats.vue'
 export default {
+  components: { BaseStats },
     data() {
       return {
         pokemon: {},
-        baseStats: {
-          hp: 'HP',
-          attack: 'ATK',
-          defense: 'DEF',
-          'special-attack': 'SATK',
-          'special-defense': 'SDEF',
-          speed: 'SPD'
-        },
-        baseStatsNumber: 0,
         linkImage: '',
         description: '',
         type: '',
@@ -135,7 +116,6 @@ export default {
           })).then(res => {
             this.pokemon = res.data;
             this.type = res.data.types[0].type.name;
-            console.log(res.data);
             this.typeColorCss = this.getRgbColor(this.type);
             this.linkImage = res.data.sprites.other["official-artwork"].front_default;
           })
@@ -163,19 +143,6 @@ export default {
       getCssColor(type) {
         let rgbColor = this.getRgbColor(type);
         return `background-color: ${rgbColor}`;
-      },
-      getBaseStatsNumber(statsName) {
-        // console.log(this.pokemon.stats[statsName]);
-        for (let i = 0; i < this.pokemon.stats.length; i++) {
-          const element = this.pokemon.stats[i];
-          if(statsName === element.stat.name) {
-            let x = element.base_stat * 100 / 255;
-            return `width: ${x}%`;
-          }
-        }
-      },
-      getBaseStatsNameFormat(statsName) {
-        return this.baseStats[statsName];
       }
     },
     beforeMount() {
@@ -185,20 +152,6 @@ export default {
 </script>
   
 <style scoped>
-  .container-stats {
-    width: 100%;
-    background-color: #ddd;
-  }
-  .stats-bar {
-    color: v-bind('typeColorCss');
-    text-align: right;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-  .stats-bar-size {
-    width: v-bind('baseStatsNumber');
-    background-color:v-bind('typeColorCss');
-  }
   .text-by-type {
     color: v-bind('typeColorCss');
   }
