@@ -1,56 +1,30 @@
 <template>
     <div class="card type-color">
         <div>
-            <nav class="flex flex-row justify-content-between nav-card">
-                <div class="flex flex-row flex-gap-2 align-items-center">
-                  <a class="text-white" v-on:click="getPokemon">Voltar</a>
-                  <h1 class="text-white capitalize title">
-                      {{pokemon.name}}
-                  </h1>
-                </div>
-                <h2 class="text-white font-bold">#{{pokemon.id}}</h2>
-            </nav>
+            <NavbarCard 
+              :pokemonName="pokemon.name"
+              :pokemonId="pokemon.id">
+            </NavbarCard>
         </div>
         <div class="flex flex-row justify-content-center">
-            <div class="container-img">
-              <img :src="linkImage" style="width:100%; height:100%; object-fit:contain;"/>
-            </div>
+            <ImageCarousel :linkImage="linkImage"></ImageCarousel>
         </div>
         <div class="info-card border" style="margin-top: -60px ;">
           <div class="h-full flex flex-column justify-content-between">
               <div class="flex flex-row border w-full justify-content-center" style="padding-top: 60px;">
                   <ul class="flex flex-row flex-gap-2">
-                      <li v-for="type in pokemon.types" :key="type.color">
-                          <h3 class="type-tag capitalize" :style="getCssColor(type.type.name)">
-                              {{type.type.name}}
-                          </h3>
-                      </li>
+                    <TypeBadge :types="pokemon.types"></TypeBadge>
                   </ul>
               </div>
               <div class="flex flex-column border align-items-center w-full justify-content-evenly">
                   <div class="flex">
                       <h3 class="text-by-type capitalize font-bold type-color-text">About</h3>
                   </div>
-                  <div class="flex flex-row justify-content-evenly w-full">
-                      <div class="flex flex-column align-items-center">
-                          <p>{{pokemon.weight}} kg</p>
-                          <p>Weight</p>
-                      </div>
-                      <div class="flex flex-column align-items-center">
-                          <p>{{pokemon.height}} m</p>
-                          <p>Height</p>
-                      </div>
-                      <div class="flex flex-column align-items-center">
-                          <div class="flex flex-column ">
-                              <li v-for="ability in pokemon.abilities" :key="ability">
-                                  <p class="capitalize">
-                                      {{ability.ability.name}}
-                                  </p>
-                              </li>
-                          </div>
-                          <p>Moves</p>
-                      </div>
-                  </div>
+                  <AboutCard
+                    :weight="pokemon.weight"
+                    :height="pokemon.height"
+                    :abilities="pokemon.abilities">
+                  </AboutCard>
               </div>
               <div class="border">
                   <p class="capitalize-first">
@@ -61,7 +35,11 @@
                 <h3 class="text-by-type capitalize font-bold type-color-text">Base Stats</h3>
               </div>
               <div class="border card-stats flex flex-column align-items-center" v-for="stat in pokemon.stats" :key="stat">
-                  <base-stats :baseStatsName="stat.stat.name" :baseStatsNumber="stat.base_stat"></base-stats>
+                  <BaseStats 
+                    :baseStatsName="stat.stat.name" 
+                    :baseStatsNumber="stat.base_stat"
+                    :typeColorCss="typeColorCss">
+                  </BaseStats>
               </div>
           </div>
         </div>
@@ -70,8 +48,12 @@
 
 <script>
 import BaseStats from './SinglePokemon/BaseStats.vue'
+import NavbarCard from './SinglePokemon/NavbarCard.vue'
+import TypeBadge from './SinglePokemon/TypeBadge.vue'
+import AboutCard from './SinglePokemon/AboutCard.vue'
+import ImageCarousel from './UI/ImageCarousel.vue'
 export default {
-  components: { BaseStats },
+  components: { BaseStats, NavbarCard, ImageCarousel, TypeBadge, AboutCard },
     data() {
       return {
         pokemon: {},
