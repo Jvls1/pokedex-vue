@@ -13,7 +13,6 @@ body, html {
     color: white;
 }
 .border {
-    border: 1px solid red;
 }
 .flex {
     display: flex;
@@ -67,6 +66,8 @@ body, html {
     font-size: 1.5rem;
     font-weight: bold;
 }
-.col-2 {
-    width: 2rem;
+.carousel-image {
+    width:100%;
+    height:100%;
+    object-fit:contain;
 }

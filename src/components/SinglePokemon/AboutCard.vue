@@ -1,16 +1,16 @@
 <template>
     <div class="flex flex-row justify-content-evenly w-full">
         <div class="flex flex-column align-items-center">
-            <p>{{pokemon.weight}} kg</p>
+            <p>{{weight}} kg</p>
             <p>Weight</p>
         </div>
         <div class="flex flex-column align-items-center">
-            <p>{{pokemon.height}} m</p>
+            <p>{{height}} m</p>
             <p>Height</p>
         </div>
         <div class="flex flex-column align-items-center">
             <div class="flex flex-column ">
-                <li v-for="ability in pokemon.abilities" :key="ability">
+                <li v-for="ability in abilities" :key="ability">
                     <p class="capitalize">
                         {{ability.ability.name}}
                     </p>
@@ -24,8 +24,8 @@
 <script>
 export default {
     props: {
-        weight: String,
-        height: String,
+        weight: Number,
+        height: Number,
         abilities: Array
     }
 }

@@ -8,7 +8,7 @@
             <p style="text-align: right;">{{baseStatsNumber}}</p>
         </div>
 
-        <div class="flex flex-row align-items-center w-full">
+        <div class="flex flex-row align-items-center w-full" style="flex-grow: 1;">
             <div class="container-stats" >
                 <div class="stats-bar stats-bar-size" :style="getBaseStatsNumber">
                 </div>
@@ -26,8 +26,8 @@ export default {
     },
     computed: {
         getBaseStatsNumber() {
-            console.log(this.baseStatsNumber);
-            let x = this.baseStatsNumber * 100 / 255;
+            let baseStats = this.baseStatsNumber;
+            let x = baseStats * 100 / 255;
             return `width: ${x}%`;
         },
         getBaseStatsNameFormat() {
@@ -58,7 +58,6 @@ export default {
         padding-bottom: 5px;
     }
     .stats-bar-size {
-        background-color: v-bind('typeColorCss');;
+        background-color: v-bind('typeColorCss');
     }
-
 </style>

@@ -1,49 +1,48 @@
 <template>
-    <div class="card type-color">
-        <div>
-            <NavbarCard 
-              :pokemonName="pokemon.name"
-              :pokemonId="pokemon.id">
-            </NavbarCard>
-        </div>
-        <div class="flex flex-row justify-content-center">
-            <ImageCarousel :linkImage="linkImage"></ImageCarousel>
-        </div>
-        <div class="info-card border" style="margin-top: -60px ;">
-          <div class="h-full flex flex-column justify-content-between">
-              <div class="flex flex-row border w-full justify-content-center" style="padding-top: 60px;">
-                  <ul class="flex flex-row flex-gap-2">
-                    <TypeBadge :types="pokemon.types"></TypeBadge>
-                  </ul>
-              </div>
-              <div class="flex flex-column border align-items-center w-full justify-content-evenly">
-                  <div class="flex">
-                      <h3 class="text-by-type capitalize font-bold type-color-text">About</h3>
-                  </div>
-                  <AboutCard
-                    :weight="pokemon.weight"
-                    :height="pokemon.height"
-                    :abilities="pokemon.abilities">
-                  </AboutCard>
-              </div>
-              <div class="border">
-                  <p class="capitalize-first">
-                    {{description}}
-                  </p>
-              </div>
-              <div class="border">
-                <h3 class="text-by-type capitalize font-bold type-color-text">Base Stats</h3>
-              </div>
-              <div class="border card-stats flex flex-column align-items-center" v-for="stat in pokemon.stats" :key="stat">
-                  <BaseStats 
-                    :baseStatsName="stat.stat.name" 
-                    :baseStatsNumber="stat.base_stat"
-                    :typeColorCss="typeColorCss">
-                  </BaseStats>
-              </div>
-          </div>
-        </div>
+  <div class="card type-color">
+    <div>
+      <NavbarCard 
+        :pokemonName="pokemon.name"
+        :pokemonId="pokemon.id">
+      </NavbarCard>
     </div>
+    <div class="flex flex-row justify-content-center">
+      <ImageCarousel :linkImage="linkImage"></ImageCarousel>
+    </div>
+    <div class="info-card border" style="margin-top: -60px ;">
+      <div class="h-full flex flex-column justify-content-between">
+        <div class="flex flex-row border w-full justify-content-center" style="padding-top: 60px;">
+          <ul class="flex flex-row flex-gap-2" v-for="type in pokemon.types" :key="type.type.name">
+            <TypeBadge 
+              :typeName="type.type.name"></TypeBadge>
+          </ul>
+        </div>
+        <div class="flex flex-column border align-items-center w-full justify-content-evenly">
+          <div class="flex">
+            <h3 class="text-by-type capitalize font-bold type-color-text">About</h3>
+          </div>
+          <AboutCard
+            :weight="pokemon.weight"
+            :height="pokemon.height"
+            :abilities="pokemon.abilities">
+          </AboutCard>
+        </div>
+        <div class="flex flex-column border align-items-center w-full">
+            <p class="capitalize-first">{{description}}</p>
+        </div>
+        <div class="flex flex-column border align-items-center w-full">
+          <h3 class="text-by-type capitalize font-bold type-color-text">Base Stats</h3>
+        </div>
+        <div class="border card-stats flex flex-column" v-for="stat in pokemon.stats" :key="stat">
+          <BaseStats
+            :baseStatsName="stat.stat.name" 
+            :baseStatsNumber="stat.base_stat"
+            :typeColorCss="typeColorCss">
+          </BaseStats>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -59,12 +58,43 @@ export default {
         pokemon: {},
         linkImage: '',
         description: '',
-        type: '',
-        typeColor: [{
-          color: '',
-          css: ''
-        }],
-        typeColors: {
+        typeColorCss: ''
+      }
+    },
+    methods: {
+      getPokemon() {
+        fetch('https://pokeapi.co/api/v2/pokemon/150', {
+          method: 'GET'
+        }).then(res => {
+          res.json().then(data => ({
+            data: data,
+            status: res.status
+          })).then(res => {
+            this.pokemon = res.data;
+            let type = res.data.types[0].type.name;
+            this.typeColorCss = this.getRgbColor(type);
+            this.linkImage = res.data.sprites.other["official-artwork"].front_default;
+          })
+        })
+        fetch('https://pokeapi.co/api/v2/pokemon-species/150',{
+          method:'GET'
+        }).then(res => {
+          res.json().then(data => ({
+            data: data,
+            status: res.status
+          })).then(res => {
+            for (let i = 0; i < res.data.flavor_text_entries.length; i++) {
+              this.description = res.data.flavor_text_entries[0].flavor_text;
+              if(res.data.flavor_text_entries[i].language.name === 'en') {
+                 this.description = res.data.flavor_text_entries[i].flavor_text;
+              }
+            }
+            this.description = this.description.replace(/[\n\f]/g,' ').toLowerCase();
+          })
+        })
+      },
+      getRgbColor(type) {
+        let typeColors = {
           normal: '#AAA67F',
           fighting: '#C12239',
           flying: '#A891EC',
@@ -83,48 +113,8 @@ export default {
           dragon: '#7037FF',
           dark: '#75574C',
           fairy: '#E69EAC',
-        },
-        typeColorCss: ''
-      }
-    },
-    methods: {
-      getPokemon() {
-        fetch('https://pokeapi.co/api/v2/pokemon/charizard', {
-          method: 'GET'
-        }).then(res => {
-          res.json().then(data => ({
-            data: data,
-            status: res.status
-          })).then(res => {
-            this.pokemon = res.data;
-            this.type = res.data.types[0].type.name;
-            this.typeColorCss = this.getRgbColor(this.type);
-            this.linkImage = res.data.sprites.other["official-artwork"].front_default;
-          })
-        })
-        fetch('https://pokeapi.co/api/v2/pokemon-species/charizard',{
-          method:'GET'
-        }).then(res => {
-          res.json().then(data => ({
-            data: data,
-            status: res.status
-          })).then(res => {
-            for (let i = 0; i < res.data.flavor_text_entries.length; i++) {
-              this.description = res.data.flavor_text_entries[0].flavor_text;
-              if(res.data.flavor_text_entries[i].language.name === 'en') {
-                 this.description = res.data.flavor_text_entries[i].flavor_text;
-              }
-            }
-            this.description = this.description.replace(/[\n\f]/g,' ').toLowerCase();
-          })
-        })
-      },
-      getRgbColor(type) {
-        return this.typeColors[type];
-      },
-      getCssColor(type) {
-        let rgbColor = this.getRgbColor(type);
-        return `background-color: ${rgbColor}`;
+        }
+        return typeColors[type];
       }
     },
     beforeMount() {
@@ -133,7 +123,7 @@ export default {
   }
 </script>
   
-<style scoped>
+<style>
   .text-by-type {
     color: v-bind('typeColorCss');
   }
@@ -165,12 +155,6 @@ export default {
   }
   .card-stats{
     width: 100%;
-  }
-  .type-tag {
-    background-color: var(--type-color);
-    color: white;
-    border-radius: 1.5rem;
-    padding: 0.5rem;
   }
   .type-color {
     background-color: v-bind('typeColorCss');

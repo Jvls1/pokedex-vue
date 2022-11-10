@@ -1,6 +1,6 @@
 <template>
     <div class="container-img">
-        <img :src="linkImage" style="width:100%; height:100%; object-fit:contain;"/>
+        <img :src="linkImage" class="carousel-image"/>
     </div>
 </template>
 
