@@ -12,9 +12,12 @@
     <div class="info-card border" style="margin-top: -60px ;">
       <div class="h-full flex flex-column justify-content-between">
         <div class="flex flex-row border w-full justify-content-center" style="padding-top: 60px;">
-          <ul class="flex flex-row flex-gap-2" v-for="type in pokemon.types" :key="type.type.name">
-            <TypeBadge 
-              :typeName="type.type.name"></TypeBadge>
+          <ul class="flex flex-row flex-gap-2">
+            <li v-for="typeP in pokemon.types" :key="typeP.type.name">
+              <TypeBadge 
+                :typeName="typeP.type.name">
+              </TypeBadge>
+            </li>
           </ul>
         </div>
         <div class="flex flex-column border align-items-center w-full justify-content-evenly">

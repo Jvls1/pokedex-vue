@@ -1,9 +1,7 @@
 <template>
-    <li>
-        <h3 class="type-tag capitalize" :style="getCssColor()">
-            {{typeName}}
-        </h3>
-    </li>
+    <h3 class="type-tag capitalize" :style="getCssColor()">
+        {{typeName}}
+    </h3>
 </template>
 
 <script>

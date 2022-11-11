@@ -1,14 +1,17 @@
 <template>
-  <BaseCard></BaseCard>
+  <ListCard></ListCard>
+  <!-- <BaseCard></BaseCard> -->
 </template>
 
 <script>
-import BaseCard from './components/BaseCard.vue'
+// import BaseCard from './components/BaseCard.vue'
+import ListCard from './components/PokemonList/ListCard.vue'
 
 export default {
   name: 'App',
   components: {
-    BaseCard
+    // BaseCard,
+    ListCard
   }
 }
 </script>
