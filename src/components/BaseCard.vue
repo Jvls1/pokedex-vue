@@ -56,74 +56,42 @@ import AboutCard from './SinglePokemon/AboutCard.vue'
 import ImageCarousel from './UI/ImageCarousel.vue'
 export default {
   components: { BaseStats, NavbarCard, ImageCarousel, TypeBadge, AboutCard },
-    data() {
-      return {
-        pokemon: {},
-        linkImage: '',
-        description: '',
-        typeColorCss: ''
+  props: {
+    pokemon: Object
+  },
+  data() {
+    return {
+      linkImage: '',
+      description: '',
+      typeColorCss: ''
+    }
+  },
+  methods: {
+    getRgbColor(type) {
+      let typeColors = {
+        normal: '#AAA67F',
+        fighting: '#C12239',
+        flying: '#A891EC',
+        poison: '#A43E9E',
+        ground: '#DEC16B',
+        rock: '#B69E31',
+        bug: '#A7B723',
+        ghost: '#70559B',
+        steel: '#B7B9D0',
+        fire: '#F57D31',
+        water: '#6493EB',
+        grass: '#74CB48',
+        electric: '#F9CF30',
+        psychic: '#FB5584',
+        ice: '#9AD6DF',
+        dragon: '#7037FF',
+        dark: '#75574C',
+        fairy: '#E69EAC',
       }
-    },
-    methods: {
-      getPokemon() {
-        fetch('https://pokeapi.co/api/v2/pokemon/150', {
-          method: 'GET'
-        }).then(res => {
-          res.json().then(data => ({
-            data: data,
-            status: res.status
-          })).then(res => {
-            this.pokemon = res.data;
-            let type = res.data.types[0].type.name;
-            this.typeColorCss = this.getRgbColor(type);
-            this.linkImage = res.data.sprites.other["official-artwork"].front_default;
-          })
-        })
-        fetch('https://pokeapi.co/api/v2/pokemon-species/150',{
-          method:'GET'
-        }).then(res => {
-          res.json().then(data => ({
-            data: data,
-            status: res.status
-          })).then(res => {
-            for (let i = 0; i < res.data.flavor_text_entries.length; i++) {
-              this.description = res.data.flavor_text_entries[0].flavor_text;
-              if(res.data.flavor_text_entries[i].language.name === 'en') {
-                 this.description = res.data.flavor_text_entries[i].flavor_text;
-              }
-            }
-            this.description = this.description.replace(/[\n\f]/g,' ').toLowerCase();
-          })
-        })
-      },
-      getRgbColor(type) {
-        let typeColors = {
-          normal: '#AAA67F',
-          fighting: '#C12239',
-          flying: '#A891EC',
-          poison: '#A43E9E',
-          ground: '#DEC16B',
-          rock: '#B69E31',
-          bug: '#A7B723',
-          ghost: '#70559B',
-          steel: '#B7B9D0',
-          fire: '#F57D31',
-          water: '#6493EB',
-          grass: '#74CB48',
-          electric: '#F9CF30',
-          psychic: '#FB5584',
-          ice: '#9AD6DF',
-          dragon: '#7037FF',
-          dark: '#75574C',
-          fairy: '#E69EAC',
-        }
-        return typeColors[type];
-      }
-    },
-    beforeMount() {
-      this.getPokemon();
+      return typeColors[type];
     }
   }
+}
 </script>
   
 <style>

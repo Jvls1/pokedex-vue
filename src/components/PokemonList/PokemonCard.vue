@@ -2,13 +2,16 @@
     <div class="pokemon-card" style="background-color: #ddd;">
         <p>#{{pokemon.id}}</p>
         <ImageCarousel :linkImage="linkImage" class="carousel-image"></ImageCarousel>
-        <h2 class="capitalize-first">{{pokemonName}}</h2>
+        <LoadPokemonBtn>{{pokemonName}}</LoadPokemonBtn>
     </div>
+     <BaseCard :pokemon="pokemon"></BaseCard>
 </template>
 <script>
+import BaseCard from '../BaseCard.vue';
 import ImageCarousel from '../UI/ImageCarousel.vue';
+import LoadPokemonBtn from './LoadPokemonBtn.vue';
 export default {
-  components: { ImageCarousel },
+  components: { ImageCarousel, BaseCard, LoadPokemonBtn },
     props: {
         pokemonName: String,
         pokemonUrl: String
@@ -17,7 +20,7 @@ export default {
         return {
             pokemon: {},
             linkImage: '',
-            typeColor: String
+            typeColor: ''
         }
     },
     methods: {

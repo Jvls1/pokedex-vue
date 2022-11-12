@@ -36,7 +36,6 @@ export default {
                     status: res.status
                 })).then(res => {
                     this.pokemons = res.data.results;
-                    console.log(this.pokemons);
                 });
             });
         }
