@@ -13,4 +13,9 @@ export default {
 </script>
 
 <style scoped>
+.carousel-image {
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
 </style>

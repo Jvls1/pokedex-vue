@@ -1,7 +1,7 @@
 <template>
     <nav class="flex flex-row justify-content-between nav-card">
         <div class="flex flex-row flex-gap-2 align-items-center">
-            <a class="text-white">Voltar</a>
+            <router-link to="/" class="text-white">Voltar</router-link>
             <h1 class="text-white capitalize title">
                 {{pokemonName}}
             </h1>

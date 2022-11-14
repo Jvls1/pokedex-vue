@@ -1,34 +1,39 @@
 <template>
-    <div class="card">
-        <div>
-            <HeaderList></HeaderList>
-            <SearchField></SearchField>
-        </div>
-        <div>
-            <ul class="flex flex-column flex-gap-2">
-                <li v-for="pokemon in pokemons" :key="pokemon">
-                    <PokemonCard 
-                        :pokemonName="pokemon.name"
-                        :pokemonUrl="pokemon.url">
-                    </PokemonCard>
-                </li>
-            </ul>
+    <div style="margin-left: 1rem; margin-right: 1rem;">
+        <NavbarList/>
+        <div class="card">
+            <div>
+                <ul class="flex flex-row flex-gap-2 justify-content-between" style="flex-wrap: wrap;">
+                    <li v-for="pokemon in pokemons" :key="pokemon">
+                        <PokemonCard 
+                            :pokemonName="pokemon.name"
+                            :pokemonUrl="pokemon.url">
+                        </PokemonCard>
+                    </li>
+                </ul>
+            </div>
+            <div class="">
+                <a @click="previousPage">Voltar</a>
+                <a @click="nextPage">Próximo</a>
+            </div>
         </div>
     </div>
 </template>
+
 <script>
-import HeaderList from './HeaderList.vue';
+import NavbarList from './NavbarList.vue';
 import PokemonCard from './PokemonCard.vue';
-import SearchField from './SearchField.vue';
 export default {
+    components: { PokemonCard, NavbarList },
     data() {
         return {
-            pokemons: []
+            pokemons: [],
+            pageNumber: 0
         };
     },
     methods: {
         getListPokemon() {
-            fetch("https://pokeapi.co/api/v2/pokemon/", {
+            fetch("https://pokeapi.co/api/v2/pokemon?limit=20&offset="+this.pageNumber, {
                 method: "GET"
             }).then(res => {
                 res.json().then(data => ({
@@ -38,12 +43,22 @@ export default {
                     this.pokemons = res.data.results;
                 });
             });
+        },
+        nextPage() {
+            this.pageNumber += 20;
+            this.getListPokemon();
+        },
+        previousPage() {
+            if((this.pageNumber - 20) < 0) {
+                return;
+            }
+            this.pageNumber -= 20;
+            this.getListPokemon();
         }
     },
     beforeMount() {
         this.getListPokemon();
-    },
-    components: { HeaderList, SearchField, PokemonCard }
+    }
 }
 </script>
 <style>

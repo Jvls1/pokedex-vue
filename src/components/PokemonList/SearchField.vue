@@ -1,6 +1,7 @@
 <template>
     <div>
-        <input type="text" name="search" id="search" placeholder="Search">
+        <input type="text" name="search" id="search" placeholder="Search"
+            class="w-full">
     </div>
 </template>
 <script>

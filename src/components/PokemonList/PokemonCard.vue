@@ -1,17 +1,16 @@
 <template>
-    <div class="pokemon-card" style="background-color: #ddd;">
-        <p>#{{pokemon.id}}</p>
-        <ImageCarousel :linkImage="linkImage" class="carousel-image"></ImageCarousel>
-        <LoadPokemonBtn>{{pokemonName}}</LoadPokemonBtn>
+    <div class="pokemon-card" >
+        <p class="pokemon-id">#{{pokemon.id}}</p>            
+        <ImageCarousel :linkImage="linkImage" style="background-color: #fff; border-radius:8px; heigth:75%; padding-top: 20px"></ImageCarousel>
+        <router-link :to="{name: 'pokemon', params:{pokemonId: this.pokemonId}}">
+            <p class="pokemon-name capitalize">{{pokemonName}}</p>
+        </router-link>
     </div>
-     <BaseCard :pokemon="pokemon"></BaseCard>
 </template>
 <script>
-import BaseCard from '../BaseCard.vue';
 import ImageCarousel from '../UI/ImageCarousel.vue';
-import LoadPokemonBtn from './LoadPokemonBtn.vue';
 export default {
-  components: { ImageCarousel, BaseCard, LoadPokemonBtn },
+  components: { ImageCarousel },
     props: {
         pokemonName: String,
         pokemonUrl: String
@@ -19,6 +18,7 @@ export default {
     data() {
         return {
             pokemon: {},
+            pokemonId: 0,
             linkImage: '',
             typeColor: ''
         }
@@ -34,6 +34,7 @@ export default {
                 })).then(res => {
                     this.pokemon = res.data;
                     let type = res.data.types[0].type.name;
+                    this.pokemonId = res.data.id
                     this.typeColor = this.getRgbColor(type);
                     this.linkImage = res.data.sprites.other["official-artwork"].front_default;
                 });
@@ -70,9 +71,25 @@ export default {
 </script>
 <style scoped>
     .pokemon-card {
-        width: 200px;
-        height: 200px;
-        border: 4px solid v-bind('typeColor');
+        position: relative;
+        width: 150px;
+        padding: 4px;
         border-radius: 10px;
+        background-color: v-bind('typeColor');
+    }
+    .pokemon-id {
+        position:absolute; 
+        margin: 10px;
+        top:0;
+        right:0;
+        color: v-bind('typeColor');
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+    .pokemon-name {
+        color: #fff;
+        font-size: 1.5rem;
+        text-align: center;
+        padding: 10px 0 10px 0;
     }
 </style>
