@@ -1,9 +1,9 @@
 <template>
-    <div style="margin-left: 1rem; margin-right: 1rem;">
+    <div class="container-pokemon">
         <NavbarList/>
         <div class="card">
             <div>
-                <ul class="flex flex-row flex-gap-2 justify-content-between" style="flex-wrap: wrap;">
+                <ul class="flex flex-row flex-gap-2 justify-content-between flex-wrap">
                     <li v-for="pokemon in pokemons" :key="pokemon">
                         <PokemonCard 
                             :pokemonName="pokemon.name"
@@ -62,5 +62,8 @@ export default {
 }
 </script>
 <style>
-    
+    .container-pokemon {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
 </style>

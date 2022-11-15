@@ -1,7 +1,7 @@
 <template>
     <div class="pokemon-card" >
         <p class="pokemon-id">#{{pokemon.id}}</p>            
-        <ImageCarousel :linkImage="linkImage" style="background-color: #fff; border-radius:8px; heigth:75%; padding-top: 20px"></ImageCarousel>
+        <ImageCarousel :linkImage="linkImage" class="pokemon-image"></ImageCarousel>
         <router-link :to="{name: 'pokemon', params:{pokemonId: this.pokemonId}}">
             <p class="pokemon-name capitalize">{{pokemonName}}</p>
         </router-link>
@@ -91,5 +91,12 @@ export default {
         font-size: 1.5rem;
         text-align: center;
         padding: 10px 0 10px 0;
+    }
+    .pokemon-image {
+        background-color: #fff; 
+        border-radius:8px; 
+        height:75%;
+        width:100%;
+        padding-top: 20px
     }
 </style>

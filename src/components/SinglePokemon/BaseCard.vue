@@ -1,5 +1,5 @@
 <template>
-  <div class="card type-color content">
+  <div class="card type-color container">
     <div>
       <NavbarCard 
         :pokemonName="pokemon.name"
@@ -167,5 +167,5 @@ export default {
   }
   .type-color-text {
     color: v-bind('typeColorCss');
-  }
+  } 
 </style>
