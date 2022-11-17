@@ -4,16 +4,11 @@
             <h1 class="title">Pokédex</h1>
             <p>Filter</p>
         </div>
-        <SearchField/>
     </div>
 </template>
 
 <script>
-import SearchField from './SearchField.vue'
 export default {
-    components: { 
-        SearchField 
-    },
 }
 </script>
 <style scoped>

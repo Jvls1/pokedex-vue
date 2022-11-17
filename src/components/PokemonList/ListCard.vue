@@ -1,6 +1,7 @@
 <template>
     <div class="container-pokemon">
         <NavbarList/>
+        <SearchField @pokemonSearch="handleSearch"/>
         <div class="card">
             <div>
                 <ul class="flex flex-row flex-gap-2 justify-content-between flex-wrap">
@@ -22,9 +23,10 @@
 
 <script>
 import NavbarList from './NavbarList.vue';
+import SearchField from './SearchField.vue';
 import PokemonCard from './PokemonCard.vue';
 export default {
-    components: { PokemonCard, NavbarList },
+    components: { PokemonCard, NavbarList, SearchField },
     data() {
         return {
             pokemons: [],
@@ -40,6 +42,7 @@ export default {
                     data: data,
                     status: res.status
                 })).then(res => {
+                    this.pokemons = [];
                     this.pokemons = res.data.results;
                 });
             });
@@ -54,6 +57,29 @@ export default {
             }
             this.pageNumber -= 20;
             this.getListPokemon();
+        },
+        handleSearch(search) {
+            if(search === '') {
+                this.getListPokemon();
+            }
+            console.log("pass here");
+            fetch('https://pokeapi.co/api/v2/pokemon/'+search, {
+                method: "GET"
+            }).then(res => {
+                res.json().then(data => ({
+                    data: data,
+                    status: res.status
+                })).then(res => {
+                    this.pokemons = [];
+                    console.log(res.data);
+                    let pokemon = {
+                        name: res.data.name,
+                        url: 'https://pokeapi.co/api/v2/pokemon/'+search
+                    }
+                    this.pokemons.push(pokemon);
+                });
+            });
+            console.log(this.pokemons);
         }
     },
     beforeMount() {

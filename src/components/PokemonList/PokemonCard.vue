@@ -32,6 +32,7 @@ export default {
                     data: data,
                     status: res.status
                 })).then(res => {
+                    console.log(this.pokemon)
                     this.pokemon = res.data;
                     let type = res.data.types[0].type.name;
                     this.pokemonId = res.data.id
