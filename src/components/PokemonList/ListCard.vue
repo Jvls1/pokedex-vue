@@ -59,27 +59,25 @@ export default {
             this.getListPokemon();
         },
         handleSearch(search) {
-            if(search === '') {
+            if(search == '') {
                 this.getListPokemon();
-            }
-            console.log("pass here");
-            fetch('https://pokeapi.co/api/v2/pokemon/'+search, {
-                method: "GET"
-            }).then(res => {
-                res.json().then(data => ({
-                    data: data,
-                    status: res.status
-                })).then(res => {
-                    this.pokemons = [];
-                    console.log(res.data);
-                    let pokemon = {
-                        name: res.data.name,
-                        url: 'https://pokeapi.co/api/v2/pokemon/'+search
-                    }
-                    this.pokemons.push(pokemon);
+            } else {
+                fetch('https://pokeapi.co/api/v2/pokemon/'+search, {
+                    method: "GET"
+                }).then(res => {
+                    res.json().then(data => ({
+                        data: data,
+                        status: res.status
+                    })).then(res => {
+                        this.pokemons = [];
+                        let pokemon = {
+                            name: res.data.name,
+                            url: 'https://pokeapi.co/api/v2/pokemon/'+search
+                        }
+                        this.pokemons.push(pokemon);
+                    });
                 });
-            });
-            console.log(this.pokemons);
+            }
         }
     },
     beforeMount() {
