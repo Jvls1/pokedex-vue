@@ -89,5 +89,7 @@ export default {
     .container-pokemon {
         margin-left: 1rem;
         margin-right: 1rem;
+        background-color: #F7F7F7;
+        border-radius: 6px;
     }
 </style>

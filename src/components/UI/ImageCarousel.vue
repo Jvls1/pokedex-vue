@@ -13,9 +13,22 @@ export default {
 </script>
 
 <style scoped>
-.carousel-image {
-    width:100%;
-    height:100%;
-    object-fit:contain;
-}
+    .container-img {
+        display: flex;
+        width: 200px;
+        height: 200px;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+    .container-img img {
+        flex-shrink: 0;
+        min-width: 100%;
+        min-height: 100%;
+    }
+    .carousel-image {
+        width:100%;
+        height:100%;
+        object-fit:contain;
+    }
 </style>

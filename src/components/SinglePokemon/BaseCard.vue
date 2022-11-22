@@ -7,10 +7,11 @@
       </NavbarCard>
     </div>
     <div class="flex flex-row justify-content-center">
-      <ImageCarousel :linkImage="linkImage"></ImageCarousel>
+      <ContentLoader v-if="loading" width="200px" height="200px"></ContentLoader>
+      <ImageCarousel v-else :linkImage="linkImage"></ImageCarousel>
     </div>
     <div class="info-card" style="margin-top: -60px ;">
-      <div class="h-full flex flex-column justify-content-between">
+      <div class="h-full flex flex-column justify-content-between" style="padding: 20px;">
         <div class="flex flex-row w-full justify-content-center" style="padding-top: 60px;">
           <ul class="flex flex-row flex-gap-2">
             <li v-for="typeP in pokemon.types" :key="typeP.type.name">
@@ -54,18 +55,21 @@ import NavbarCard from './NavbarCard.vue'
 import TypeBadge from './TypeBadge.vue'
 import AboutCard from './AboutCard.vue'
 import ImageCarousel from '../UI/ImageCarousel.vue'
+import { ContentLoader } from 'vue-content-loader'
 export default {
-  components: { BaseStats, NavbarCard, ImageCarousel, TypeBadge, AboutCard },
+  components: { BaseStats, NavbarCard, ImageCarousel, TypeBadge, AboutCard, ContentLoader },
   data() {
     return {
       pokemon: {},
       linkImage: '',
       description: '',
-      typeColorCss: ''
+      typeColorCss: '',
+      loading: true
     }
   },
   methods: {
     getPokemon() {
+      this.loading = true
       fetch('https://pokeapi.co/api/v2/pokemon/'+this.$route.params.pokemonId, {
           method: "GET"
       }).then(res => {
@@ -77,6 +81,7 @@ export default {
           let type = res.data.types[0].type.name;
           this.typeColorCss = this.getRgbColor(type);
           this.linkImage = res.data.sprites.other["official-artwork"].front_default;
+          this.loading = false
         });
       });
        fetch('https://pokeapi.co/api/v2/pokemon-species/'+this.$route.params.pokemonId,{
@@ -135,19 +140,6 @@ export default {
   .nav-card {
     padding: 0.5rem;
     align-items: center;
-  }
-  .container-img {
-    display: flex;
-    width: 200px;
-    height: 200px;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
-  .container-img img {
-    flex-shrink: 0;
-    min-width: 100%;
-    min-height: 100%;
   }
   .info-card {
     display: flex;

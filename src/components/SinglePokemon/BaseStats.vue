@@ -4,7 +4,7 @@
             <p class="capitalize font-bold type-color-text">{{getBaseStatsNameFormat}}</p>
         </div>
 
-        <div class="flex" style="width: 3.5rem; flex-grow: 0; justify-content: end;">
+        <div class="flex" style="width: 3.5rem; flex-grow: 0; justify-content: center;">
             <p style="text-align: right;">{{baseStatsNumber}}</p>
         </div>
 
@@ -45,17 +45,18 @@ export default {
     }
 }
 </script>
-
 <style scoped>
     .container-stats {
         width: 100%;
         background-color: #ddd;
+        border-radius: 6px;
     }
     .stats-bar {
         color: v-bind('typeColorCss');
         text-align: right;
         padding-top: 5px;
         padding-bottom: 5px;
+        border-radius: 6px;
     }
     .stats-bar-size {
         background-color: v-bind('typeColorCss');
