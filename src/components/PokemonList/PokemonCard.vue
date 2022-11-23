@@ -1,8 +1,7 @@
 <template>
     <div class="pokemon-card" >
-        <p class="pokemon-id">#{{pokemon.id}}</p>     
-        <ContentLoader v-if="loading" width="100%" height="100%"></ContentLoader>       
-        <ImageCarousel v-else :linkImage="linkImage" class="pokemon-image"></ImageCarousel>
+        <p class="pokemon-id" v-if="!loading">#{{pokemon.id}}</p>     
+        <ImageCarousel :linkImage="linkImage" class="pokemon-image"></ImageCarousel>
         <router-link :to="{name: 'pokemon', params:{pokemonId: this.pokemonId}}">
             <p class="pokemon-name capitalize">{{pokemonName}}</p>
         </router-link>
@@ -10,9 +9,8 @@
 </template>
 <script>
 import ImageCarousel from '../UI/ImageCarousel.vue';
-import { ContentLoader } from 'vue-content-loader'
 export default {
-  components: { ImageCarousel, ContentLoader },
+  components: { ImageCarousel },
     props: {
         pokemonName: String,
         pokemonUrl: String
@@ -22,8 +20,7 @@ export default {
             pokemon: {},
             pokemonId: 0,
             linkImage: '',
-            typeColor: '',
-            loading: true
+            typeColor: ''
         }
     },
     methods: {
@@ -35,7 +32,6 @@ export default {
                     data: data,
                     status: res.status
                 })).then(res => {
-                    console.log(this.pokemon)
                     this.pokemon = res.data;
                     let type = res.data.types[0].type.name;
                     this.pokemonId = res.data.id

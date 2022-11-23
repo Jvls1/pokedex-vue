@@ -30,12 +30,10 @@ export default {
     },
     computed: {
         getWeightFormated() {
-            console.log(this.weight)
             let weight = this.weight;
             return weight / 10;
         },
         getHeightFormated() {
-            console.log(this.height)
             let height = this.height;
             height = height / 10;
             return height.toFixed(2);

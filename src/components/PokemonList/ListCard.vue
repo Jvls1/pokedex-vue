@@ -6,7 +6,8 @@
             <div>
                 <ul class="flex flex-row flex-gap-2 justify-content-between flex-wrap">
                     <li v-for="pokemon in pokemons" :key="pokemon">
-                        <PokemonCard 
+                        <ContentLoader v-if="loading" width="150px" height="300px" primaryColor="#a9a9a9"></ContentLoader>
+                        <PokemonCard v-else
                             :pokemonName="pokemon.name"
                             :pokemonUrl="pokemon.url">
                         </PokemonCard>
@@ -25,12 +26,14 @@
 import NavbarList from './NavbarList.vue';
 import SearchField from './SearchField.vue';
 import PokemonCard from './PokemonCard.vue';
+import { ContentLoader } from 'vue-content-loader'
 export default {
-    components: { PokemonCard, NavbarList, SearchField },
+    components: { PokemonCard, NavbarList, SearchField, ContentLoader },
     data() {
         return {
             pokemons: [],
-            pageNumber: 0
+            pageNumber: 0,
+            loading: true
         };
     },
     methods: {
@@ -42,6 +45,9 @@ export default {
                     data: data,
                     status: res.status
                 })).then(res => {
+                    if(res.status === 200) {
+                        this.loading = false;
+                    }
                     this.pokemons = [];
                     this.pokemons = res.data.results;
                 });

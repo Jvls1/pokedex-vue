@@ -31,7 +31,6 @@ export default {
             return `width: ${x}%`;
         },
         getBaseStatsNameFormat() {
-            console.log(this.baseStatsName);
             let baseStatsNameFormated = {
                 hp: 'HP',
                 attack: 'ATK',

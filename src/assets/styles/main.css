@@ -63,3 +63,8 @@ body, html {
 .flex-wrap {
     flex-wrap: wrap;
 }
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: capitalize;
+}
