@@ -33,7 +33,8 @@ export default {
         return {
             pokemons: [],
             pageNumber: 0,
-            loading: true
+            loading: true,
+            lastSearh: ''
         };
     },
     methods: {
@@ -56,6 +57,9 @@ export default {
         nextPage() {
             this.pageNumber += 20;
             this.getListPokemon();
+            if(this.pokemons <= 0) {
+                this.previousPage();
+            }
         },
         previousPage() {
             if((this.pageNumber - 20) < 0) {
@@ -65,6 +69,9 @@ export default {
             this.getListPokemon();
         },
         handleSearch(search) {
+            if(this.lastSearh === search) {
+                return;
+            }
             if(search == '') {
                 this.getListPokemon();
             } else {
