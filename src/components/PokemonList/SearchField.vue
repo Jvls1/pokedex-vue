@@ -15,7 +15,7 @@ export default {
         search() {
             this.$emit('pokemonSearch', this.pokemonNameOrId);
         }
-    },
+    }
 }
 </script>
 <style scoped>

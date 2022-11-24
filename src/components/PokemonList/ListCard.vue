@@ -14,10 +14,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="">
-                <a @click="previousPage">Voltar</a>
-                <a @click="nextPage">Próximo</a>
-            </div>
+            <FooterContainer @previousPage="previousPage" @nextPage="nextPage"/>
         </div>
     </div>
 </template>
@@ -26,9 +23,10 @@
 import NavbarList from './NavbarList.vue';
 import SearchField from './SearchField.vue';
 import PokemonCard from './PokemonCard.vue';
+import FooterContainer from '../UI/FooterContainer.vue';
 import { ContentLoader } from 'vue-content-loader'
 export default {
-    components: { PokemonCard, NavbarList, SearchField, ContentLoader },
+    components: { PokemonCard, NavbarList, SearchField, ContentLoader, FooterContainer },
     data() {
         return {
             pokemons: [],
