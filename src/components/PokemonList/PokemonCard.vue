@@ -71,13 +71,21 @@ export default {
 }
 </script>
 <style scoped>
+
     .pokemon-card {
         position: relative;
-        width: 150px;
+        /* width: 150px; */
         padding: 4px;
         border-radius: 10px;
         background-color: v-bind('typeColor');
     }
+
+    @media(max-width: 380px) {
+        /* .pokemon-card {
+            width: 50%;
+        } */
+    }
+   
     .pokemon-id {
         position:absolute; 
         margin: 10px;

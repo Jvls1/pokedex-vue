@@ -2,18 +2,21 @@
     <div class="container-pokemon">
         <NavbarList/>
         <SearchField @pokemonSearch="handleSearch"/>
-        <div class="card">
-            <div>
-                <ul class="flex flex-row flex-gap-2 justify-content-between flex-wrap">
-                    <li v-for="pokemon in pokemons" :key="pokemon">
-                        <ContentLoader v-if="loading" width="150px" height="300px" primaryColor="#a9a9a9"></ContentLoader>
-                        <PokemonCard v-else
-                            :pokemonName="pokemon.name"
-                            :pokemonUrl="pokemon.url">
-                        </PokemonCard>
-                    </li>
-                </ul>
+        <div class="card" style="display: flex; flex-wrap:wrap;">
+            <div class="teste" style="padding: 5px;" v-for="pokemon in pokemons" :key="pokemon">
+                <ContentLoader v-if="loading" width="150px" height="300px" primaryColor="#a9a9a9"></ContentLoader>
+                <PokemonCard 
+                    :pokemonName="pokemon.name"
+                    :pokemonUrl="pokemon.url">
+                </PokemonCard>
             </div>
+            <!-- <div> -->
+                <!-- <ul class="flex flex-row flex-gap-2 justify-content-between flex-wrap"> -->
+                    <!-- <li v-for="pokemon in pokemons" :key="pokemon"> -->
+                        
+                    <!-- </li> -->
+                <!-- </ul> -->
+            <!-- </div> -->
             <FooterContainer @previousPage="previousPage" @nextPage="nextPage"/>
         </div>
     </div>
@@ -97,6 +100,16 @@ export default {
 }
 </script>
 <style>
+    @media(max-width: 380px) {
+        .teste {
+            width: 50%;
+        }
+    }
+    @media(min-width: 380px) and (max-width: 460px) {
+        .teste {
+            width: 33.3%;
+        }
+    }
     .container-pokemon {
         margin-left: 1rem;
         margin-right: 1rem;
