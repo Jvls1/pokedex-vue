@@ -1,6 +1,6 @@
 <template>
     <div class="pokemon-card" >
-        <p class="pokemon-id" v-if="!loading">#{{pokemon.id}}</p>     
+        <p class="pokemon-id">#{{pokemon.id}}</p>     
         <ImageCarousel :linkImage="linkImage" class="pokemon-image"></ImageCarousel>
         <router-link :to="{name: 'pokemon', params:{pokemonId: this.pokemonId}}">
             <p class="pokemon-name capitalize">{{pokemonName}}</p>
@@ -71,13 +71,13 @@ export default {
 }
 </script>
 <style scoped>
-
     .pokemon-card {
         position: relative;
         /* width: 150px; */
         padding: 4px;
         border-radius: 10px;
         background-color: v-bind('typeColor');
+        box-shadow: 0px 5px 5px rgb(0 0 0 / 20%);
     }
 
     @media(max-width: 380px) {
@@ -85,19 +85,18 @@ export default {
             width: 50%;
         } */
     }
-   
     .pokemon-id {
         position:absolute; 
-        margin: 10px;
+        margin: 8px;
         top:0;
         right:0;
         color: v-bind('typeColor');
-        font-size: 1.2rem;
-        font-weight: 600;
+        font-size: 0.9rem;
+        font-weight: 500;
     }
     .pokemon-name {
         color: #fff;
-        font-size: 1.5rem;
+        font-size: 1rem;
         text-align: center;
         padding: 10px 0 10px 0;
     }
@@ -106,6 +105,6 @@ export default {
         border-radius:8px; 
         height:75%;
         width:100%;
-        padding-top: 20px
+        padding-top: 25px
     }
 </style>
