@@ -1,6 +1,6 @@
 <template>
     <div class="container-pokemon">
-        <NavbarList/>
+        <NavbarList @listAll="getListPokemon"/>
         <SearchField @pokemonSearch="handleSearch"/>
         <div class="card" style="display: flex; flex-wrap:wrap;">
             <div v-if="notFound">
@@ -66,7 +66,6 @@ export default {
             this.getListPokemon();
         },
         handleSearch(search) {
-            search = search.trim();
             if(this.lastSearh === search) {
                 return;
             }
@@ -90,6 +89,8 @@ export default {
                         this.pokemons.push(pokemon);
                     });
                 });
+            } else {
+                this.getListPokemon();
             }
         }
     },

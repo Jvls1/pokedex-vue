@@ -1,7 +1,7 @@
 <template>
     <div>
         <input type="text" name="search" id="search" placeholder="Search"
-            class="search" v-model="pokemonNameOrId" :onchange="search"/>
+            class="search" v-model="pokemonNameOrId" @keyup.enter.prevent="search"/>
     </div>
 </template>
 <script>
@@ -13,7 +13,7 @@ export default {
     },
     methods: {
         search() {
-            this.$emit('pokemonSearch', this.pokemonNameOrId);
+            this.$emit('pokemonSearch', this.pokemonNameOrId.trim());
         }
     }
 }
