@@ -73,7 +73,6 @@ export default {
 <style scoped>
     .pokemon-card {
         position: relative;
-        /* width: 150px; */
         padding: 4px;
         border-radius: 10px;
         background-color: v-bind('typeColor');

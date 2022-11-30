@@ -1,6 +1,6 @@
 <template>
   <div class="card type-color container">
-    <div>
+    <div style="padding: 20px;">
       <NavbarCard 
         :pokemonName="pokemon.name"
         :pokemonId="pokemon.id">

@@ -1,32 +1,32 @@
 <template>
     <div class="container-pokemon">
-        <NavbarList @listAll="getListPokemon"/>
+        <NavbarContainer @listAll="getListPokemon"/>
         <SearchField @pokemonSearch="handleSearch"/>
         <div class="card" style="display: flex; flex-wrap:wrap;">
             <div v-if="notFound">
                 <p>No correspondence</p>
             </div>
             <ContentLoader v-if="loading" width="100%" height="100%" primaryColor="#a9a9a9"></ContentLoader>
-            <div class="teste" style="padding: 5px;" v-for="pokemon in pokemons" :key="pokemon.name">
+            <div class="responsive-size" style="padding: 5px;" v-for="pokemon in pokemons" :key="pokemon.name">
                 <PokemonCard v-if="!notFound && !loading"
                     :pokemonName="pokemon.name"
                     :pokemonUrl="pokemon.url">
                 </PokemonCard>
             </div>
-            <div style="height: 240px;"></div>
+            <div style="height: 70px; width: 100%;"></div>
             <FooterContainer @previousPage="previousPage" @nextPage="nextPage"/>
         </div>
     </div>
 </template>
 
 <script>
-import NavbarList from './NavbarList.vue';
+import NavbarContainer from './NavbarContainer.vue';
 import SearchField from './SearchField.vue';
 import PokemonCard from './PokemonCard.vue';
 import FooterContainer from '../UI/FooterContainer.vue';
 import { ContentLoader } from 'vue-content-loader'
 export default {
-    components: { PokemonCard, NavbarList, SearchField, ContentLoader, FooterContainer },
+    components: { PokemonCard, NavbarContainer, SearchField, ContentLoader, FooterContainer },
     data() {
         return {
             pokemons: [],
@@ -38,7 +38,7 @@ export default {
     },
     methods: {
         getListPokemon() {
-            fetch("https://pokeapi.co/api/v2/pokemon?limit=21&offset="+this.pageNumber, {
+            fetch("https://pokeapi.co/api/v2/pokemon?limit=20&offset="+this.pageNumber, {
                 method: "GET"
             }).then(res => {
                 res.json().then(data => ({
@@ -52,17 +52,17 @@ export default {
             });
         },
         nextPage() {
-            this.pageNumber += 21;
+            this.pageNumber += 20;
             this.getListPokemon();
             if(this.pokemons <= 0) {
                 this.previousPage();
             }
         },
         previousPage() {
-            if((this.pageNumber - 21) < 0) {
+            if((this.pageNumber - 20) < 0) {
                 return;
             }
-            this.pageNumber -= 21;
+            this.pageNumber -= 20;
             this.getListPokemon();
         },
         handleSearch(search) {
@@ -101,14 +101,24 @@ export default {
 }
 </script>
 <style>
-    @media(max-width: 380px) {
-        .teste {
-            width: 50%;
+    @media(max-width: 380px)  {
+        .responsive-size {
+            width: 100%;
         }
     }
     @media(min-width: 380px) and (max-width: 460px) {
-        .teste {
-            width: 33.3%;
+        .responsive-size {
+            width: 50%;
+        }
+    }
+    @media(min-width: 460px) and (max-width: 580px) {
+        .responsive-size {
+            width: 50%;
+        }
+    }
+    @media(min-width: 580px) {
+        .responsive-size {
+            width: 25%;
         }
     }
     .container-pokemon {

@@ -1,11 +1,9 @@
 <template>
-    <nav class="flex flex-row justify-content-between nav-card">
-        <div class="flex flex-row flex-gap-2 align-items-center">
-            <router-link to="/" class="text-white">Voltar</router-link>
-            <TitleContainer class="title text-white">
-                {{pokemonName}}
-            </TitleContainer>
-        </div>
+    <nav class="navbar">
+        <router-link to="/" class="text-white">Voltar</router-link>
+        <TitleContainer class="title text-white">
+            {{pokemonName}}
+        </TitleContainer>
         <h2 class="text-white font-bold">#{{pokemonId}}</h2>
     </nav>
 </template>
@@ -23,4 +21,15 @@ export default {
 </script>
 
 <style scoped>
+    .navbar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .navbar > div {
+        display: flex;
+        flex-direction: row;
+        gap: 2;
+        align-items: center;
+    }
 </style>

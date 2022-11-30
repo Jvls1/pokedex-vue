@@ -1,16 +1,16 @@
 <template>
   <div>
-    <ListCard/>
+    <ListContainer/>
   </div>
 </template>
 
 <script>
-import ListCard from '@/components/PokemonList/ListCard.vue'
+import ListContainer from '@/components/PokemonList/ListContainer.vue'
 
 export default {
   name: 'PokedexListView',
   components: {
-    ListCard
+    ListContainer
   }
 }
 </script>
