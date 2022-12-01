@@ -1,6 +1,13 @@
 <template>
     <div class="container-pokemon">
-        <NavbarContainer @listAll="getListPokemon"/>
+        <div class="flex flex-row justify-content-between">
+            <NavbarContainer @listAll="getListPokemon" :pokemonTypes="pokemonTypes"/>
+            <select v-model="selected">
+                <option v-for="typeP in pokemonTypes" :key="typeP.name">
+                    {{typeP.name}}
+                </option>
+            </select>
+        </div>
         <SearchField @pokemonSearch="handleSearch"/>
         <div class="card" style="display: flex; flex-wrap:wrap;">
             <div v-if="notFound">
@@ -33,7 +40,9 @@ export default {
             pageNumber: 0,
             loading: true,
             lastSearh: '',
-            notFound: false
+            notFound: false,
+            pokemonTypes: [],
+            selected: ''
         };
     },
     methods: {
@@ -48,6 +57,20 @@ export default {
                     this.loading = false;
                     this.pokemons = [];
                     this.pokemons = res.data.results;
+                });
+            });
+        },
+        getPokemonTypes() {
+            fetch("https://pokeapi.co/api/v2/type/", {
+                method: "GET"
+            }).then(res => {
+                res.json().then(data => ({
+                    data: data,
+                    status: res.status
+                })).then(res => {
+                    this.loading = false;
+                    this.pokemonTypes = res.data.results;
+                    console.log(res.data);
                 });
             });
         },
@@ -96,6 +119,7 @@ export default {
     },
     beforeMount() {
         this.getListPokemon();
+        this.getPokemonTypes();
         this.loading = true;
     }
 }
