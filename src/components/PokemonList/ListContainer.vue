@@ -1,8 +1,8 @@
 <template>
     <div class="container-pokemon">
         <div class="flex flex-row justify-content-between">
-            <NavbarContainer @listAll="getListPokemon" :pokemonTypes="pokemonTypes"/>
-            <select v-model="selected">
+            <NavbarContainer/>
+            <select @change="getPokemonByType()" v-model="selected">
                 <option v-for="typeP in pokemonTypes" :key="typeP.name">
                     {{typeP.name}}
                 </option>
@@ -71,6 +71,38 @@ export default {
                     this.loading = false;
                     this.pokemonTypes = res.data.results;
                     console.log(res.data);
+                });
+            });
+        },
+        getPokemonByType() {
+            fetch("https://pokeapi.co/api/v2/type/"+this.selected, {
+                method: "GET"
+            }).then(res => {
+                res.json().then(data => ({
+                    data: data,
+                    status: res.status
+                })).then(res => {
+                    let pokemons = res.data.pokemon;
+                    this.pokemons = [];
+                    pokemons.forEach(pokemon => {
+                        this.getPokemonByName(pokemon.pokemon.name);
+                    });
+                });
+            });
+        },
+        getPokemonByName(pokemonName) {
+            fetch('https://pokeapi.co/api/v2/pokemon/'+pokemonName, {
+                method: "GET"
+            }).then(res => {
+                res.json().then(data => ({
+                    data: data,
+                    status: res.status
+                })).then(res => {
+                    let pokemon = {
+                        name: res.data.name,
+                        url: 'https://pokeapi.co/api/v2/pokemon/'+pokemonName
+                    }
+                    this.pokemons.push(pokemon)
                 });
             });
         },
