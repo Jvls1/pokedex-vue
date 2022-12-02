@@ -37,17 +37,19 @@ export default {
     data() {
         return {
             pokemons: [],
-            pageNumber: 0,
+            pokemonsName: [],
+            offSet: 0,
             loading: true,
             lastSearh: '',
             notFound: false,
             pokemonTypes: [],
-            selected: ''
+            selected: '',
+            index: 20
         };
     },
     methods: {
         getListPokemon() {
-            fetch("https://pokeapi.co/api/v2/pokemon?limit=20&offset="+this.pageNumber, {
+            fetch("https://pokeapi.co/api/v2/pokemon?limit=20&offset="+this.offSet, {
                 method: "GET"
             }).then(res => {
                 res.json().then(data => ({
@@ -70,7 +72,6 @@ export default {
                 })).then(res => {
                     this.loading = false;
                     this.pokemonTypes = res.data.results;
-                    console.log(res.data);
                 });
             });
         },
@@ -85,39 +86,61 @@ export default {
                     let pokemons = res.data.pokemon;
                     this.pokemons = [];
                     pokemons.forEach(pokemon => {
-                        this.getPokemonByName(pokemon.pokemon.name);
+                        this.pokemonsName.push(pokemon.pokemon.name);
+                    });
+                    this.getPokemonByName();
+                });
+            });
+        },
+        getPokemonByName() {
+            for (let i = 0; i < this.index; i++) {
+                fetch('https://pokeapi.co/api/v2/pokemon/'+this.pokemonsName[i], {
+                    method: "GET"
+                }).then(res => {
+                    res.json().then(data => ({
+                        data: data,
+                        status: res.status
+                    })).then(res => {
+                        let pokemon = {
+                            name: res.data.name,
+                            url: 'https://pokeapi.co/api/v2/pokemon/'+this.pokemonsName[i]
+                        }
+                        this.pokemons.push(pokemon);
                     });
                 });
-            });
-        },
-        getPokemonByName(pokemonName) {
-            fetch('https://pokeapi.co/api/v2/pokemon/'+pokemonName, {
-                method: "GET"
-            }).then(res => {
-                res.json().then(data => ({
-                    data: data,
-                    status: res.status
-                })).then(res => {
-                    let pokemon = {
-                        name: res.data.name,
-                        url: 'https://pokeapi.co/api/v2/pokemon/'+pokemonName
-                    }
-                    this.pokemons.push(pokemon)
-                });
-            });
+            }
+            this.pokemons.splice(0, (this.index - 20));
+            
         },
         nextPage() {
-            this.pageNumber += 20;
+            if(this.selected != '') {
+                this.index += 20;
+                this.pokemons = [];
+                this.getPokemonByName();
+                if(this.pokemons <= 0) {
+                    this.previousPage();
+                }
+                return;
+            }
+            this.offSet += 20;
             this.getListPokemon();
             if(this.pokemons <= 0) {
                 this.previousPage();
             }
         },
         previousPage() {
-            if((this.pageNumber - 20) < 0) {
+            if(this.selected != '') {
+                this.index -= 20;
+                this.getPokemonByName();
+                if((this.index - 20) < 0) {
+                    return;
+                }
                 return;
             }
-            this.pageNumber -= 20;
+            if((this.offSet - 20) < 0) {
+                return;
+            }
+            this.offSet -= 20;
             this.getListPokemon();
         },
         handleSearch(search) {
