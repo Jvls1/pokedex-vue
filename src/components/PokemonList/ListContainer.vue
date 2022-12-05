@@ -44,7 +44,8 @@ export default {
             notFound: false,
             pokemonTypes: [],
             selected: '',
-            index: 20
+            rowsPerPage: 20,
+            pageIndex: 0
         };
     },
     methods: {
@@ -85,6 +86,7 @@ export default {
                 })).then(res => {
                     let pokemons = res.data.pokemon;
                     this.pokemons = [];
+                    this.pokemonsName = [];
                     pokemons.forEach(pokemon => {
                         this.pokemonsName.push(pokemon.pokemon.name);
                     });
@@ -93,7 +95,8 @@ export default {
             });
         },
         getPokemonByName() {
-            for (let i = 0; i < this.index; i++) {
+            for (let i = this.pageIndex * this.rowsPerPage; i < this.pageIndex * this.rowsPerPage + this.rowsPerPage; i++) {
+                console.log(i)
                 fetch('https://pokeapi.co/api/v2/pokemon/'+this.pokemonsName[i], {
                     method: "GET"
                 }).then(res => {
@@ -109,12 +112,12 @@ export default {
                     });
                 });
             }
-            this.pokemons.splice(0, (this.index - 20));
+            // this.pokemons.splice(0, (this.index - 20));
             
         },
         nextPage() {
             if(this.selected != '') {
-                this.index += 20;
+                this.pageIndex += 1;
                 this.pokemons = [];
                 this.getPokemonByName();
                 if(this.pokemons <= 0) {
