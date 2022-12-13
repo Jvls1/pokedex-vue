@@ -2,7 +2,9 @@
     <div class="container-pokemon">
         <div class="flex flex-row justify-content-between">
             <NavbarContainer/>
+            
             <select @change="getPokemonByType()" v-model="selected">
+                <span><font-awesome-icon icon="fa-solid fa-filter" /></span>   
                 <option v-for="typeP in pokemonTypes" :key="typeP.name">
                     {{typeP.name}}
                 </option>
