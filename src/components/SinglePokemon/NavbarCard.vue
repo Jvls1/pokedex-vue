@@ -1,6 +1,8 @@
 <template>
     <nav class="navbar">
-        <router-link to="/" class="text-white">Voltar</router-link>
+        <router-link to="/" class="text-white">
+            <font-awesome-icon icon="fa-arrow-left" style="cursor:pointer; font-size:1.2rem;"/>
+        </router-link>
         <TitleContainer class="title text-white">
             {{pokemonName}}
         </TitleContainer>

@@ -1,8 +1,8 @@
 <template>
     <div class="pokemon-card" >
-        <p class="pokemon-id">#{{pokemon.id}}</p>     
-        <ImageCarousel :linkImage="linkImage" class="pokemon-image"></ImageCarousel>
         <router-link :to="{name: 'pokemon', params:{pokemonId: this.pokemonId}}">
+            <p class="pokemon-id">#{{pokemon.id}}</p>     
+            <ImageCarousel :linkImage="linkImage" class="pokemon-image"></ImageCarousel>
             <p class="pokemon-name capitalize">{{pokemonName}}</p>
         </router-link>
     </div>
@@ -78,7 +78,6 @@ export default {
         background-color: v-bind('typeColor');
         box-shadow: 0px 5px 5px rgb(0 0 0 / 20%);
     }
-
     @media(max-width: 380px) {
         /* .pokemon-card {
             width: 50%;

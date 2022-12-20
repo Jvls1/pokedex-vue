@@ -1,19 +1,21 @@
 <template>
     <div style="margin-top:1rem; margin-bottom:1rem;">
-        <div class="flex flex-row justify-content-between" style="margin-bottom: 0.5rem;">
-            <TitleContainer @click="listAll" class="title">Pokédex</TitleContainer>
+        <div class="nav-container">
+            <h1 @click="listAll" class="title">Pokédex</h1>
+            <font-awesome-icon @click="showTypeList" icon="fa-filter" style="cursor:pointer;"/>
         </div>
     </div>
 </template>
 
 <script>
-import TitleContainer from '../UI/TitleContainer.vue';
 
 export default {
-    components: { TitleContainer },
     methods: {
         listAll() {
             this.$emit('listAll');
+        },
+        showTypeList() {
+            this.$emit('showTypeList');
         }
     }
 }
@@ -21,5 +23,13 @@ export default {
 <style scoped>
     .title {
         cursor: pointer;
+    }
+    div {
+        width: 100%;
+    }
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
     }
 </style>

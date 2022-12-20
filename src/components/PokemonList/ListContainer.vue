@@ -1,23 +1,24 @@
 <template>
     <div class="container-pokemon">
         <div class="flex flex-row justify-content-between">
-            <NavbarContainer/>
-            
-            <select @change="getPokemonByType()" v-model="selected">
-                <span><font-awesome-icon icon="fa-solid fa-filter" /></span>   
-                <option v-for="typeP in pokemonTypes" :key="typeP.name">
-                    {{typeP.name}}
-                </option>
-            </select>
+            <NavbarContainer @showTypeList="showTypeList"/>
+            <div v-if="renderTypeList" class="type-list">
+                <div v-for="typeP in pokemonTypes" :key="typeP.name">
+                    <p @click.prevent="getPokemonByType(typeP.name)"
+                        class="capitalize">
+                        {{typeP.name}}
+                    </p>
+                </div>
+            </div>
         </div>
         <SearchField @pokemonSearch="handleSearch"/>
         <div class="card" style="display: flex; flex-wrap:wrap;">
-            <div v-if="notFound">
+            <div v-if="pokemons.length === 0">
                 <p>No correspondence</p>
             </div>
             <ContentLoader v-if="loading" width="100%" height="100%" primaryColor="#a9a9a9"></ContentLoader>
             <div class="responsive-size" style="padding: 5px;" v-for="pokemon in pokemons" :key="pokemon.name">
-                <PokemonCard v-if="!notFound && !loading"
+                <PokemonCard v-if="!loading"
                     :pokemonName="pokemon.name"
                     :pokemonUrl="pokemon.url">
                 </PokemonCard>
@@ -38,7 +39,7 @@ export default {
     components: { PokemonCard, NavbarContainer, SearchField, ContentLoader, FooterContainer },
     data() {
         return {
-            pokemons: [],
+            pokemons: Array,
             pokemonsName: [],
             offSet: 0,
             loading: true,
@@ -47,7 +48,8 @@ export default {
             pokemonTypes: [],
             selected: '',
             rowsPerPage: 20,
-            pageIndex: 0
+            pageIndex: 0,
+            renderTypeList: false
         };
     },
     methods: {
@@ -78,8 +80,10 @@ export default {
                 });
             });
         },
-        getPokemonByType() {
-            fetch("https://pokeapi.co/api/v2/type/"+this.selected, {
+        getPokemonByType(type) {
+            this.selected = type;
+            this.renderTypeList = false;
+            fetch("https://pokeapi.co/api/v2/type/"+type, {
                 method: "GET"
             }).then(res => {
                 res.json().then(data => ({
@@ -92,13 +96,17 @@ export default {
                     pokemons.forEach(pokemon => {
                         this.pokemonsName.push(pokemon.pokemon.name);
                     });
+                    console.log('getPokemonByType');
                     this.getPokemonByName();
                 });
             });
         },
         getPokemonByName() {
+            console.log(this.pageIndex);
             for (let i = this.pageIndex * this.rowsPerPage; i < this.pageIndex * this.rowsPerPage + this.rowsPerPage; i++) {
-                console.log(i)
+                if(this.pokemonsName[i] === undefined) {
+                    return;
+                }
                 fetch('https://pokeapi.co/api/v2/pokemon/'+this.pokemonsName[i], {
                     method: "GET"
                 }).then(res => {
@@ -114,17 +122,19 @@ export default {
                     });
                 });
             }
-            // this.pokemons.splice(0, (this.index - 20));
-            
         },
         nextPage() {
+            console.log(this.selected);
             if(this.selected != '') {
                 this.pageIndex += 1;
                 this.pokemons = [];
+                console.log('nextPage');
                 this.getPokemonByName();
-                if(this.pokemons <= 0) {
-                    this.previousPage();
-                }
+                setTimeout(() => {
+                    if(this.pokemons <= 0) {
+                        this.previousPage();
+                    }
+                }, 1000);
                 return;
             }
             this.offSet += 20;
@@ -135,11 +145,13 @@ export default {
         },
         previousPage() {
             if(this.selected != '') {
-                this.index -= 20;
-                this.getPokemonByName();
-                if((this.index - 20) < 0) {
+                if((this.pageIndex - 1) < 0) {
                     return;
                 }
+                this.pageIndex -= 1;
+                this.pokemons = [];
+                console.log('previousPage');
+                this.getPokemonByName();
                 return;
             }
             if((this.offSet - 20) < 0) {
@@ -175,6 +187,9 @@ export default {
             } else {
                 this.getListPokemon();
             }
+        },
+        showTypeList() {
+            this.renderTypeList = !this.renderTypeList;
         }
     },
     beforeMount() {
@@ -213,5 +228,16 @@ export default {
         margin-bottom: 60px;
         background-color: #F7F7F7;
         border-radius: 6px;
+    }
+    .type-list {
+        position: absolute;
+        top: 4rem;
+        z-index: 1;
+        background-color: white;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
     }
 </style>
