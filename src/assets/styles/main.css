@@ -68,3 +68,6 @@ body, html {
     font-weight: bold;
     text-transform: capitalize;
 }
+.cursor-pointer {
+    cursor: pointer;
+}

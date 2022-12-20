@@ -78,13 +78,6 @@ export default {
 	background-color: v-bind('typeColor');
 	box-shadow: 0px 5px 5px rgb(0 0 0 / 20%);
 }
-
-@media(max-width: 380px) {
-	/* .pokemon-card {
-            width: 50%;
-        } */
-}
-
 .pokemon-id {
 	position: absolute;
 	margin: 8px;

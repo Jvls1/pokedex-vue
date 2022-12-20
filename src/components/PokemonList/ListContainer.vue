@@ -1,10 +1,10 @@
 <template>
 	<div class="container-pokemon">
 		<div class="flex flex-row justify-content-between">
-			<NavbarContainer @showTypeList="showTypeList" />
+			<NavbarContainer @showTypeList="showTypeList" @listAll="listAll"/>
 			<div v-if="renderTypeList" class="type-list">
 				<div v-for="typeP in pokemonTypes" :key="typeP.name">
-					<p @click.prevent="getPokemonByType(typeP.name)" class="capitalize">
+					<p @click.prevent="getPokemonByType(typeP.name)" class="type-item">
 						{{ typeP.name }}
 					</p>
 				</div>
@@ -93,13 +93,11 @@ export default {
 					pokemons.forEach(pokemon => {
 						this.pokemonsName.push(pokemon.pokemon.name);
 					});
-					console.log('getPokemonByType');
 					this.getPokemonByName();
 				});
 			});
 		},
 		getPokemonByName() {
-			console.log(this.pageIndex);
 			for (let i = this.pageIndex * this.rowsPerPage; i < this.pageIndex * this.rowsPerPage + this.rowsPerPage; i++) {
 				if (this.pokemonsName[i] === undefined) {
 					return;
@@ -121,11 +119,9 @@ export default {
 			}
 		},
 		nextPage() {
-			console.log(this.selected);
 			if (this.selected != '') {
 				this.pageIndex += 1;
 				this.pokemons = [];
-				console.log('nextPage');
 				this.getPokemonByName();
 				setTimeout(() => {
 					if (this.pokemons <= 0) {
@@ -147,7 +143,6 @@ export default {
 				}
 				this.pageIndex -= 1;
 				this.pokemons = [];
-				console.log('previousPage');
 				this.getPokemonByName();
 				return;
 			}
@@ -187,6 +182,11 @@ export default {
 		},
 		showTypeList() {
 			this.renderTypeList = !this.renderTypeList;
+		},
+		listAll() {
+			this.getListPokemon();
+			this.getPokemonTypes();
+			this.loading = true;
 		}
 	},
 	beforeMount() {
@@ -234,12 +234,23 @@ export default {
 .type-list {
 	position: absolute;
 	top: 4rem;
+	left: 0;
 	z-index: 1;
-	background-color: white;
+	background-color: #F7F7F7;
 	padding: 15px;
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
+	gap: 0.5rem;
 	width: 100%;
+	box-shadow: 0px 5px 5px rgb(0 0 0 / 20%);
+}
+.type-list div p {
+	padding: 4px;
+	text-transform: capitalize;
+	cursor: pointer;
+}
+.type-list div p:hover {
+	background: #fc8181;
+	border-radius: 6px;
 }
 </style>
