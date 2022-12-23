@@ -21,16 +21,20 @@ VueJS, VueRouter, JavaScript
 ## Screenshots
 
 Initial Screen
-![Initial Screen](readme-images/initial-screen.jpg)
+
+<img src="readme-images/initial-screen.jpg" width="300px">
 
 Filter
-![Filter](readme-images/type-search.jpg)
+
+<img src="readme-images/type-search.jpg" width="300px">
 
 Search
-![Search](readme-images/search-field.jpg)
+
+<img src="readme-images/search-field.jpg" width="300px">
 
 Selected Pokemon
-![Selected Pokemon](readme-images/single-pokemon.jpg)
+
+<img src="readme-images/single-pokemon.jpg" width="300px">
 
 
 ## References
