@@ -21,16 +21,16 @@ VueJS, VueRouter, JavaScript
 ## Screenshots
 
 Initial Screen
-![Initial Screen](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Initial Screen](readme-images/initial-screen.jpg)
 
 Filter
-![Initial Screen](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Filter](readme-images/type-search.jpg)
 
 Search
-![Initial Screen](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Search](readme-images/search-field.jpg)
 
 Selected Pokemon
-![Initial Screen](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Selected Pokemon](readme-images/single-pokemon.jpg)
 
 
 ## References
