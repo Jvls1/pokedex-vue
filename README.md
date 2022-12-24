@@ -3,7 +3,7 @@
 
 It's a project made to practice the Vue concepts and learn how to consume a public API to build dynamic websites.
 
-It still has some features to be added, CSS bugs to be fixed and optimizations, but implementing a search and pagination has made me understand important concepts for future projects and implementing a Figma design was great way to practice CSS.
+It still has some features to be added, CSS bugs to be fixed and optimizations, but implementing a search and pagination has made me understand important concepts for future projects and implementing a Figma design was a great way to practice CSS.
 
 ## Demo
 
