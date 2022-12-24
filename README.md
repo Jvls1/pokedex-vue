@@ -1,12 +1,9 @@
 
 # Pokedex Vue
 
-Its a project made to practice the Vue concepts and learn how to consume a public API 
-to build dynamic web sites.
+It's a project made to practice the Vue concepts and learn how to consume a public API to build dynamic websites.
 
-Still have some features to add, CSS bugs to fix and optimizations, but implement 
-a search and pagination teach me some cool things about how they work on the 
-client side, and implement a Figma design was great to practice CSS.
+It still has some features to be added, CSS bugs to be fixed and optimizations, but implementing a search and pagination has made me understand important concepts for future projects and implementing a Figma design was great way to practice CSS.
 
 ## Demo
 
